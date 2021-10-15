@@ -1,0 +1,52 @@
+{
+  "npmScope": "stlmpp-portfolio",
+  "affected": {
+    "defaultBase": "main"
+  },
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "projects": {
+    "contact": {
+      "tags": []
+    },
+    "contact-e2e": {
+      "tags": [],
+      "implicitDependencies": ["contact"]
+    },
+    "home": {
+      "tags": []
+    },
+    "home-e2e": {
+      "tags": [],
+      "implicitDependencies": ["home"]
+    },
+    "projects": {
+      "tags": []
+    },
+    "projects-e2e": {
+      "tags": [],
+      "implicitDependencies": ["projects"]
+    }
+  }
+}
