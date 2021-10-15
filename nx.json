@@ -27,6 +27,9 @@
     ]
   },
   "projects": {
+    "common": {
+      "tags": []
+    },
     "contact": {
       "tags": []
     },

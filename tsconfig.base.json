@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {},
+    "paths": {
+      "@stlmpp-portfolio/common": ["libs/common/src/index.ts"]
+    },
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitOverride": true,

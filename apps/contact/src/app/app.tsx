@@ -81,5 +81,3 @@ nx affected:e2e
     </div>
   );
 }
-
-export default App;

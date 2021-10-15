@@ -1,0 +1,14 @@
+<nav mat-tab-nav-bar>
+  <a
+    *ngFor="let route of routes; trackBy: trackByRoute"
+    mat-tab-link
+    [routerLink]="route.routerLink"
+    routerLinkActive
+    #routerLinkActive="routerLinkActive"
+    [active]="routerLinkActive.isActive"
+  >
+    {{ route.name }}
+  </a>
+</nav>
+
+<main></main>

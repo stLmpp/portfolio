@@ -1,146 +1,45 @@
 {
   "version": 2,
   "projects": {
-    "contact": {
-      "projectType": "application",
-      "root": "apps/contact",
-      "sourceRoot": "apps/contact/src",
-      "prefix": "app",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss",
-          "changeDetection": "OnPush"
-        },
-        "@schematics/angular:application": {
-          "strict": true,
-          "skipTests": true
-        }
-      },
+    "common": {
+      "root": "libs/common",
+      "sourceRoot": "libs/common/src",
+      "projectType": "library",
       "targets": {
-        "build": {
-          "executor": "@angular-devkit/build-angular:browser",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/apps/contact",
-            "index": "apps/contact/src/index.html",
-            "main": "apps/contact/src/main.ts",
-            "polyfills": "apps/contact/src/polyfills.ts",
-            "tsConfig": "apps/contact/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": ["apps/contact/src/favicon.ico", "apps/contact/src/assets"],
-            "styles": ["apps/contact/src/styles.scss"],
-            "scripts": []
-          },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "apps/contact/src/environments/environment.ts",
-                  "with": "apps/contact/src/environments/environment.prod.ts"
-                }
-              ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "executor": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "browserTarget": "contact:build:production"
-            },
-            "development": {
-              "browserTarget": "contact:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "executor": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "contact:build"
-          }
-        },
         "lint": {
           "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/contact/src/**/*.ts", "apps/contact/src/**/*.html"]
+            "lintFilePatterns": ["libs/common/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/contact"],
+          "outputs": ["coverage/libs/common"],
           "options": {
-            "jestConfig": "apps/contact/jest.config.js",
+            "jestConfig": "libs/common/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "contact-e2e": {
-      "root": "apps/contact-e2e",
-      "sourceRoot": "apps/contact-e2e/src",
-      "projectType": "application",
-      "targets": {
-        "e2e": {
-          "executor": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/contact-e2e/cypress.json",
-            "devServerTarget": "contact:serve:development"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "contact:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["apps/contact-e2e/**/*.{js,ts}"]
-          }
-        }
-      }
-    },
-    "home": {
-      "root": "apps/home",
-      "sourceRoot": "apps/home/src",
+    "contact": {
+      "root": "apps/contact",
+      "sourceRoot": "apps/contact/src",
       "projectType": "application",
       "targets": {
         "build": {
           "executor": "@nrwl/web:build",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/home",
-            "index": "apps/home/src/index.html",
+            "outputPath": "dist/apps/contact",
+            "index": "apps/contact/src/index.html",
             "baseHref": "/",
-            "main": "apps/home/src/main.tsx",
-            "polyfills": "apps/home/src/polyfills.ts",
-            "tsConfig": "apps/home/tsconfig.app.json",
-            "assets": ["apps/home/src/favicon.ico", "apps/home/src/assets"],
-            "styles": ["apps/home/src/styles.scss"],
+            "main": "apps/contact/src/main.tsx",
+            "polyfills": "apps/contact/src/polyfills.ts",
+            "tsConfig": "apps/contact/tsconfig.app.json",
+            "assets": ["apps/contact/src/favicon.ico", "apps/contact/src/assets"],
+            "styles": ["apps/contact/src/styles.scss"],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"
           },
@@ -148,8 +47,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/home/src/environments/environment.ts",
-                  "with": "apps/home/src/environments/environment.prod.ts"
+                  "replace": "apps/contact/src/environments/environment.ts",
+                  "with": "apps/contact/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -172,12 +71,12 @@
         "serve": {
           "executor": "@nrwl/web:dev-server",
           "options": {
-            "buildTarget": "home:build",
-            "hmr": true
+            "buildTarget": "contact:build",
+            "hmr": false
           },
           "configurations": {
             "production": {
-              "buildTarget": "home:build:production",
+              "buildTarget": "contact:build:production",
               "hmr": false
             }
           }
@@ -186,7 +85,130 @@
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/home/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": ["apps/contact/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/contact"],
+          "options": {
+            "jestConfig": "apps/contact/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "contact-e2e": {
+      "root": "apps/contact-e2e",
+      "sourceRoot": "apps/contact-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/contact-e2e/cypress.json",
+            "devServerTarget": "contact:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "contact:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/contact-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "home": {
+      "projectType": "application",
+      "root": "apps/home",
+      "sourceRoot": "apps/home/src",
+      "prefix": "app",
+      "generators": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "changeDetection": "OnPush"
+        },
+        "@schematics/angular:application": {
+          "strict": true,
+          "skipTests": true
+        }
+      },
+      "targets": {
+        "build": {
+          "executor": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/home",
+            "index": "apps/home/src/index.html",
+            "main": "apps/home/src/main.ts",
+            "polyfills": "apps/home/src/polyfills.ts",
+            "tsConfig": "apps/home/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/home/src/favicon.ico", "apps/home/src/assets"],
+            "styles": ["apps/home/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/home/src/environments/environment.ts",
+                  "with": "apps/home/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "executor": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "home:build:production"
+            },
+            "development": {
+              "browserTarget": "home:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "executor": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "home:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/home/src/**/*.ts", "apps/home/src/**/*.html"]
           }
         },
         "test": {
@@ -208,7 +230,7 @@
           "executor": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "apps/home-e2e/cypress.json",
-            "devServerTarget": "home:serve"
+            "devServerTarget": "home:serve:development"
           },
           "configurations": {
             "production": {
