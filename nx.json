@@ -50,6 +50,9 @@
     "projects-e2e": {
       "tags": [],
       "implicitDependencies": ["projects"]
+    },
+    "server": {
+      "tags": []
     }
   }
 }
