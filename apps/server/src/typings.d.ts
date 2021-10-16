@@ -10,7 +10,7 @@ declare module 'html-parse-stringify' {
     voidElement: boolean;
     name: string;
     attrs: Record<string, string>;
-    children: IDoc[];
+    children?: IDoc[];
   }
 
   export interface IOptions {
