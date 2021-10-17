@@ -7,7 +7,9 @@ import { environment } from './environments/environment';
 declare global {
   interface Window {
     _stlmppDestroySvelteApp?(): void;
+    _stlmppCreateSvelteApp?(): void;
     _stlmppDestroyReactApp?(): void;
+    _stlmppCreateReactApp?(): void;
   }
 }
 

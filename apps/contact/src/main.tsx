@@ -6,16 +6,16 @@ import { App } from './app/app';
 declare global {
   interface Window {
     _stlmppDestroyReactApp?(): void;
+    _stlmppCreateReactApp?(): void;
   }
 }
 
-const element = document.getElementById('react-app')!;
-
-render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-  element
-);
-
-window._stlmppDestroyReactApp = () => unmountComponentAtNode(element);
+const getElement = () => document.getElementById('react-app')!;
+window._stlmppCreateReactApp = () =>
+  render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+    getElement()
+  );
+window._stlmppDestroyReactApp = () => unmountComponentAtNode(getElement());

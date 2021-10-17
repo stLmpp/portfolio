@@ -1,3 +1,5 @@
+<mat-progress-bar @progress *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
 <nav mat-tab-nav-bar>
   <a
     *ngFor="let route of routes; trackBy: trackByRoute"

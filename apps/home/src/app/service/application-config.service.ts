@@ -1,7 +1,7 @@
 import { Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { TagInterface } from '@stlmpp-portfolio/common';
 import { DOCUMENT } from '@angular/common';
-import { firstValueFrom, fromEvent, map } from 'rxjs';
+import { forkJoin, fromEvent, map, Observable, of, tap, timeout } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ApplicationConfigService {
@@ -12,12 +12,26 @@ export class ApplicationConfigService {
   private readonly _loaded = new Map<number, HTMLElement[]>();
   private readonly _renderer2: Renderer2;
 
-  async loadApplication(id: number, tags: TagInterface[]): Promise<void> {
-    if (this._loaded.has(id)) {
-      return;
+  private _loadTag(tag: TagInterface): Observable<HTMLElement> {
+    const element = this._renderer2.createElement(tag.tag);
+    for (const attribute of tag.attributes) {
+      this._renderer2.setAttribute(element, attribute.name, attribute.value ?? '');
     }
-    const elements = await Promise.all(tags.map(tag => this.loadTag(id, tag)));
-    this._loaded.set(id, elements);
+    const appendTo = this.document[tag.location];
+    this._renderer2.appendChild(appendTo, element);
+    return fromEvent(element, 'load').pipe(map(() => element));
+  }
+
+  loadApplication(id: number, tags: TagInterface[]): Observable<HTMLElement[]> {
+    if (this._loaded.has(id)) {
+      return of(this._loaded.get(id)!);
+    }
+    return forkJoin(tags.map(tag => this._loadTag(tag))).pipe(
+      tap(elements => {
+        this._loaded.set(id, elements);
+      }),
+      timeout(5000)
+    );
   }
 
   unloadApplication(id: number): void {
@@ -29,15 +43,5 @@ export class ApplicationConfigService {
       element.remove();
     }
     this._loaded.delete(id);
-  }
-
-  async loadTag(id: number, tag: TagInterface): Promise<HTMLElement> {
-    const element = this._renderer2.createElement(tag.tag);
-    for (const attribute of tag.attributes) {
-      this._renderer2.setAttribute(element, attribute.name, attribute.value ?? '');
-    }
-    const appendTo = this.document[tag.location];
-    this._renderer2.appendChild(appendTo, element);
-    return firstValueFrom(fromEvent(element, 'load').pipe(map(() => element)));
   }
 }

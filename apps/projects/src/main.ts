@@ -3,16 +3,13 @@ import App from './App.svelte';
 declare global {
   interface Window {
     _stlmppDestroySvelteApp?(): void;
+    _stlmppCreateSvelteApp?(): void;
   }
 }
 
-const app = new App({
-  target: document.getElementById('svelte-app')!,
-  props: {
-    name: 'projects',
-  },
-});
-
-window._stlmppDestroySvelteApp = () => app.$destroy();
-
-export default app;
+window._stlmppCreateSvelteApp = () => {
+  const app = new App({
+    target: document.getElementById('svelte-app')!,
+  });
+  window._stlmppDestroySvelteApp = () => app.$destroy();
+};
