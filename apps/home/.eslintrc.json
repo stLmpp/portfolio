@@ -1,5 +1,5 @@
 {
-  "extends": ["..\\..\\.eslintrc.json"],
+  "extends": ["../../.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
   "overrides": [
     {
@@ -25,7 +25,8 @@
             "styles": 8,
             "template": 5
           }
-        ]
+        ],
+        "@typescript-eslint/no-non-null-assertion": "off"
       }
     },
     {

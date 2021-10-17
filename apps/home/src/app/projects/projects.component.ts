@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { BaseComponent } from '../base/base-component';
 
 @Component({
   selector: 'app-projects',
@@ -7,4 +8,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { id: 'svelte-app' },
 })
-export class ProjectsComponent {}
+export class ProjectsComponent extends BaseComponent implements OnDestroy {
+  override ngOnDestroy(): void {
+    this.window._stlmppDestroySvelteApp?.();
+    this.window._stlmppDestroySvelteApp = undefined;
+    super.ngOnDestroy();
+  }
+}

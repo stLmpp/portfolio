@@ -45,21 +45,24 @@ export class AppService {
       throw new NotFoundException(`head for project "${project}" not found`);
     }
     const headScriptsAndLinks: Tag[] = this._findScriptAndStyles(head).map(doc =>
-      Tag.fromDoc(doc, TagLocationEnum.head)
+      Tag.fromDoc(doc, TagLocationEnum.head, project)
     );
     const body = this._findDoc(docs, TagLocationEnum.body);
     if (!body) {
       throw new NotFoundException(`body for project "${project}" not found`);
     }
-    const bodyScriptsAndLinks = this._findScriptAndStyles(body).map(doc => Tag.fromDoc(doc, TagLocationEnum.body));
+    const bodyScriptsAndLinks = this._findScriptAndStyles(body).map(doc =>
+      Tag.fromDoc(doc, TagLocationEnum.body, project)
+    );
     return [...headScriptsAndLinks, ...bodyScriptsAndLinks];
   }
 
   async getApplicationConfig(project: ProjectEnum): Promise<ApplicationConfig> {
+    const tags = await this.getTags(project);
     return new ApplicationConfig({
       name: project,
-      tags: await this.getTags(project),
       path: `${project}`,
+      tags,
     });
   }
 }

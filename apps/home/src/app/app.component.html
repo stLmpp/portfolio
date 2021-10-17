@@ -3,6 +3,7 @@
     *ngFor="let route of routes; trackBy: trackByRoute"
     mat-tab-link
     [routerLink]="route.routerLink"
+    [routerLinkActiveOptions]="{ exact: route.exact ?? false }"
     routerLinkActive
     #routerLinkActive="routerLinkActive"
     [active]="routerLinkActive.isActive"

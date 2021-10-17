@@ -4,6 +4,7 @@ import { trackByFactory } from '@stlmpp/utils';
 interface Route {
   routerLink: string;
   name: string;
+  exact?: boolean;
 }
 
 @Component({
@@ -14,7 +15,7 @@ interface Route {
 })
 export class AppComponent {
   readonly routes: Route[] = [
-    { routerLink: '/home', name: 'Home' },
+    { routerLink: '/', name: 'Home', exact: true },
     { routerLink: '/projects', name: 'Projects' },
     { routerLink: '/contact', name: 'Contact' },
   ];

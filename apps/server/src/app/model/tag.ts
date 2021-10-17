@@ -1,4 +1,4 @@
-import { TagAttributeInterface, TagInterface, uniqIdFactoryNumber } from '@stlmpp-portfolio/common';
+import { ProjectEnum, TagAttributeInterface, TagInterface, uniqIdFactoryNumber } from '@stlmpp-portfolio/common';
 import { IDoc } from 'html-parse-stringify';
 import { ApiProperty } from '@nestjs/swagger';
 import { TagLocationEnum } from '@stlmpp-portfolio/common';
@@ -31,7 +31,20 @@ export class Tag implements TagInterface {
   @ApiProperty({ type: TagAttribute, isArray: true }) readonly attributes!: TagAttribute[];
   @ApiProperty({ enum: TagLocationEnum }) readonly location!: TagLocationEnum;
 
-  static fromDoc(doc: IDoc, location: TagLocationEnum): Tag {
+  static fromDoc(doc: IDoc, location: TagLocationEnum, project: ProjectEnum): Tag {
+    if (doc.attrs.href) {
+      doc = { ...doc, attrs: { ...doc.attrs, href: resolvePath(doc.attrs.href, project) } };
+    }
+    if (doc.attrs.src) {
+      doc = { ...doc, attrs: { ...doc.attrs, src: resolvePath(doc.attrs.src, project) } };
+    }
     return new Tag({ tag: doc.name as TagTypeEnum, location, attributes: TagAttribute.fromAttributes(doc.attrs) });
   }
+}
+
+function resolvePath(file: string, project: ProjectEnum): string {
+  if (file.charAt(0) === '/') {
+    file = file.slice(1);
+  }
+  return `${project}/${file}`;
 }
